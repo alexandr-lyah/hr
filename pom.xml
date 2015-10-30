@@ -10,4 +10,19 @@
         <maven.compiler.source>1.7</maven.compiler.source>
         <maven.compiler.target>1.7</maven.compiler.target>
     </properties>
+    
+    <dependencies>
+    <dependency>
+      <groupId>javax.mail</groupId>
+      <artifactId>mail</artifactId>
+      <version>1.4</version>
+    </dependency>
+    <dependency>
+        <groupId>com.comcast.ebi.util</groupId>
+        <artifactId>common-utilities</artifactId>
+        <version>1.0-SNAPSHOT</version>
+        <type>jar</type>
+    </dependency>
+    </dependencies>
+    
 </project>
