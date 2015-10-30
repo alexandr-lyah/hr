@@ -1,13 +1,11 @@
 package com.shekhar.hr.ingest.location;
 
+import com.comcast.ebi.common.fileutils.UtilitiesFile;
 import com.comcast.ebi.common.urlutils.UtilitiesURL;
-import java.io.BufferedWriter;
+import com.shekhar.hr.utils.General;
 import java.io.File;
-import java.io.FileWriter;
 import java.util.List;
 import java.util.TreeSet;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 /**
  *
@@ -20,9 +18,11 @@ public class LinkedinJobLocation {
     private static final char[] alphabet = "abcdefghijklmnopqrstuvwxyz".toCharArray();
     
     private static UtilitiesURL uUrl;
+    private static UtilitiesFile uFile;
     
     public LinkedinJobLocation() {
         uUrl = new UtilitiesURL();
+        uFile = new UtilitiesFile();
     }
     
     /**
@@ -30,177 +30,44 @@ public class LinkedinJobLocation {
      * @param nums 
      */
     public void getLinkedinJobLocation(List<Integer> nums) {
+        try {
+            File f = new File(outputFile);
+            if (f.exists()) {
+                f.delete();
+            }
+            f.createNewFile();
+        } catch (Exception ex) {
+            System.out.println("Error in deleting/creating file: " + ex);
+        }
+        
         TreeSet<String> set = new TreeSet<>();
         TreeSet<String> tmp = new TreeSet<>();
         
         if (nums.contains(1)) {
-            tmp = getOneChar();
+            tmp = General.getOneChar(alphabet, baseurl, uUrl);
             set.addAll(tmp); tmp.clear();
         }
+        uFile.appendToFile(outputFile, General.setToBuilder(set)); set.clear();
         
         if (nums.contains(2)) {
-            tmp = getTwoChar();
+            tmp = General.getTwoChar(alphabet, baseurl, uUrl);
             set.addAll(tmp); tmp.clear();
         }
+        uFile.appendToFile(outputFile, General.setToBuilder(set)); set.clear();
         
         if (nums.contains(3)) {
-            tmp = getThreeChar();
+            tmp = General.getThreeChar(alphabet, baseurl, uUrl);
             set.addAll(tmp); tmp.clear();
         }
+        uFile.appendToFile(outputFile, General.setToBuilder(set)); set.clear();
         
         if (nums.contains(4)) {
-            tmp = getFourChar();
+            tmp = General.getFourChar(alphabet, baseurl, uUrl);
             set.addAll(tmp); tmp.clear();
         }
-        
-        File f = new File(outputFile);
-        if (f.exists()) {
-            f.delete();
-        }
-        
-        try {
-            BufferedWriter bw = new BufferedWriter(new FileWriter(outputFile));
-            StringBuilder builder = new StringBuilder();
-            for (String s : set) {
-                builder.append(s).append("\n");
-            }
-            bw.write(builder.toString());
-            bw.close();
-        } catch (Exception ex) {
-            System.out.println("Error in writing the output file: " + ex);
-        }
+        uFile.appendToFile(outputFile, General.setToBuilder(set)); set.clear();
         
     }
     
-    private TreeSet<String> getOneChar() {
-        TreeSet<String> tmp = new TreeSet<>();
-        
-        for (int i = 0 ; i < alphabet.length; ++i) {
-            String uri = baseurl + alphabet[i];
-            pr(uri);
-            String res = uUrl.readStringFromUrl(uri);
-            if (res != null && !res.isEmpty()) {
-                try {
-                    JSONObject json = new JSONObject(res);
-                    if (json.has("resultList")) {
-                        JSONArray jArr = json.getJSONArray("resultList");
-                        if (jArr != null && jArr.length() > 0) {
-                            for (int x = 0 ; x < jArr.length(); ++x) {
-                                JSONObject item = jArr.getJSONObject(x);
-                                if (item.has("displayName") && item.get("displayName") != null) {
-                                    tmp.add(item.getString("displayName").toLowerCase());
-                                }
-                            }
-                        }
-                    }
-                } catch (Exception ex) {
-                    System.out.println("Error in parsing url json: " + ex);
-                }
-            }
-        }
-        return tmp;
-    }
     
-    private TreeSet<String> getTwoChar() {
-        TreeSet<String> tmp = new TreeSet<>();
-        
-        for (int i = 0 ; i < alphabet.length; ++i) {
-            for (int j = 0 ; j < alphabet.length; ++j) {
-                String uri = baseurl + alphabet[i] + alphabet[j];
-                pr(uri);
-                String res = uUrl.readStringFromUrl(uri);
-                if (res != null && !res.isEmpty()) {
-                    try {
-                        JSONObject json = new JSONObject(res);
-                        if (json.has("resultList")) {
-                            JSONArray jArr = json.getJSONArray("resultList");
-                            if (jArr != null && jArr.length() > 0) {
-                                for (int x = 0 ; x < jArr.length(); ++x) {
-                                    JSONObject item = jArr.getJSONObject(x);
-                                    if (item.has("displayName") && item.get("displayName") != null) {
-                                        tmp.add(item.getString("displayName").toLowerCase());
-                                    }
-                                }
-                            }
-                        }
-                    } catch (Exception ex) {
-                        System.out.println("Error in parsing url json: " + ex);
-                    }
-                }
-            }
-        }
-        return tmp;
-    }
-    
-    private TreeSet<String> getThreeChar() {
-        TreeSet<String> tmp = new TreeSet<>();
-        
-        for (int i = 0 ; i < alphabet.length; ++i) {
-            for (int j = 0 ; j < alphabet.length; ++j) {
-                for (int k = 0 ; k < alphabet.length; ++k) {
-                    String uri = baseurl + alphabet[i] + alphabet[j] + alphabet[k];
-                    pr(uri);
-                    String res = uUrl.readStringFromUrl(uri);
-                    if (res != null && !res.isEmpty()) {
-                        try {
-                            JSONObject json = new JSONObject(res);
-                            if (json.has("resultList")) {
-                                JSONArray jArr = json.getJSONArray("resultList");
-                                if (jArr != null && jArr.length() > 0) {
-                                    for (int x = 0 ; x < jArr.length(); ++x) {
-                                        JSONObject item = jArr.getJSONObject(x);
-                                        if (item.has("displayName") && item.get("displayName") != null) {
-                                            tmp.add(item.getString("displayName").toLowerCase());
-                                        }
-                                    }
-                                }
-                            }
-                        } catch (Exception ex) {
-                            System.out.println("Error in parsing url json: " + ex);
-                        }
-                    }
-                }
-            }
-        }
-        return tmp;
-    }
-    
-    private TreeSet<String> getFourChar() {
-        TreeSet<String> tmp = new TreeSet<>();
-        
-        for (int i = 0 ; i < alphabet.length; ++i) {
-            for (int j = 0 ; j < alphabet.length; ++j) {
-                for (int k = 0 ; k < alphabet.length; ++k) {
-                    for (int y = 0 ; y < alphabet.length; ++y) {
-                        String uri = baseurl + alphabet[i] + alphabet[j] + alphabet[k] + alphabet[y];
-                        pr(uri);
-                        String res = uUrl.readStringFromUrl(uri);
-                        if (res != null && !res.isEmpty()) {
-                            try {
-                                JSONObject json = new JSONObject(res);
-                                if (json.has("resultList")) {
-                                    JSONArray jArr = json.getJSONArray("resultList");
-                                    if (jArr != null && jArr.length() > 0) {
-                                        for (int x = 0 ; x < jArr.length(); ++x) {
-                                            JSONObject item = jArr.getJSONObject(x);
-                                            if (item.has("displayName") && item.get("displayName") != null) {
-                                                tmp.add(item.getString("displayName").toLowerCase());
-                                            }
-                                        }
-                                    }
-                                }
-                            } catch (Exception ex) {
-                                System.out.println("Error in parsing url json: " + ex);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return tmp;
-    }
-    
-    private void pr(Object o) {
-        System.out.println(o);
-    }
 }

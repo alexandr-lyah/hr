@@ -1,6 +1,5 @@
 package com.shekhar.hr.impl;
 
-import com.shekhar.hr.ingest.skills.IndeedSkills;
 import com.shekhar.hr.ingest.skills.LinkedinSkills;
 import java.util.ArrayList;
 import java.util.List;
