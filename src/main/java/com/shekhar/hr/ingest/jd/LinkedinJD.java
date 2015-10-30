@@ -1,9 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.shekhar.hr.ingest.jd;
+
+import com.comcast.ebi.common.urlutils.UtilitiesURL;
 
 /**
  *
@@ -11,6 +8,27 @@ package com.shekhar.hr.ingest.jd;
  */
 public class LinkedinJD {
     
-    private static final String baseurl = "https://www.linkedin.com/jobs2/view/77986898";
+    private static final String basejoburl = "https://www.linkedin.com/vsearch/j?orig=JSHP&keywords=Software+Engineer&distance=50&locationType=I&countryCode=us&trk=two_box_geo_fill";
+    private static final String baseurl = "https://www.linkedin.com/jobs2/view/93961214";
+    private static UtilitiesURL uUrl;
+    
+    public LinkedinJD() {
+        uUrl = new UtilitiesURL();
+    }
+    
+    public void getLinkedinJD() {
+        String res = uUrl.readStringFromUrl(baseurl);
+        pr(res);
+    }
+    
+    public static void main (String [] args) {
+        LinkedinJD jd = new LinkedinJD();
+        jd.getLinkedinJD();
+        
+    }
+    
+    private void pr(Object o) {
+        System.out.println(o);
+    }
     
 }

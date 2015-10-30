@@ -9,17 +9,16 @@ import java.util.List;
  *
  * @author sagraw200
  */
-public class ImplGetSkills {
+public class ImplGetIndeedSkills {
     
     public static void main(String[] args) {
         
         List<Integer> list = new ArrayList<>();
-        list.add(1); list.add(2); list.add(3);
-//        LinkedinSkills getSkills = new LinkedinSkills();
-//        getSkills.getLinkedinSkills(list);
-//        
+        list.add(1); list.add(2); list.add(3); list.add(4);
+        
         IndeedSkills getSkills = new IndeedSkills();
         getSkills.getIndeedSkills(list);
+        
     }
     
 }
