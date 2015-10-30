@@ -26,8 +26,8 @@ public class LinkedinSkills {
     }
     
     /**
-     * by default this calculates till 3 characters, unless its defined, max:4
-     * @param N
+     * 
+     * @param nums 
      */
     public void getLinkedinSkills(List<Integer> nums) {
         TreeSet<String> set = new TreeSet<>();

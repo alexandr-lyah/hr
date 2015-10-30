@@ -4,8 +4,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.util.TreeSet;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import com.comcast.ebi.common.urlutils.UtilitiesURL;
 import java.util.List;
 
@@ -26,8 +24,8 @@ public class IndeedSkills {
     }
     
     /**
-     * by default this calculates till 3 characters, unless its defined, max:4
-     * @param N
+     * 
+     * @param nums 
      */
     public void getIndeedSkills(List<Integer> nums) {
         TreeSet<String> set = new TreeSet<>();
