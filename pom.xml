@@ -13,6 +13,11 @@
 
     <repositories>
         <repository>
+            <id>typesafe</id>
+            <name>Typesafe Repository</name>
+            <url>http://repo.typesafe.com/typesafe/releases/</url>
+        </repository>
+        <repository>
             <snapshots>
                 <enabled>true</enabled>
                 <updatePolicy>always</updatePolicy>
@@ -28,6 +33,11 @@
     </repositories>
 
     <dependencies>
+        <dependency>
+            <groupId>com.typesafe.akka</groupId>
+            <artifactId>akka-actor</artifactId>
+            <version>2.0.1</version>
+        </dependency>
         <dependency>
             <groupId>com.comcast.ebi.util</groupId>
             <artifactId>common-utilities</artifactId>
